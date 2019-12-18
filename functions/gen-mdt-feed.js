@@ -209,7 +209,7 @@ const gtfsReadyEntities = async () => {
   const buses = await fetchBuses()
   const railTrains = await fetchRail() // Metrorail
   const movers = await fetchMovers()
-  const trolleys = await fetchTrolleys()
+  // const trolleys = await fetchTrolleys()
   const cgable = await fetchCGABLE()
 
   let busesByName = {}
@@ -217,23 +217,23 @@ const gtfsReadyEntities = async () => {
   const extraBuses = []
   const allTrolleys = []
 
-  trolleys.forEach(tsv => {
-    const name = tsv.name_link
-    if (name && busesByName[name] != null) {
-      // TSO updates every 15 seconds, unlikely that MDT will be more up to date
-      if (busesByName[name].timestamp <= tsv.timestamp) {
-        delete busesByName[name].speed
-        busesByName[name].lat = tsv.lat
-        busesByName[name].lng = tsv.lng
-        busesByName[name].bearing = tsv.bearing
-        busesByName[name].timestamp = tsv.timestamp
-      }
-    } else if (name != null) { // still a bus, not tracked by MDT
-      extraBuses.push(tsv)
-    } else { // not a bus, not tracked by MDT: a trolley
-      allTrolleys.push(tsv)
-    }
-  })
+  // trolleys.forEach(tsv => {
+  //   const name = tsv.name_link
+  //   if (name && busesByName[name] != null) {
+  //     // TSO updates every 15 seconds, unlikely that MDT will be more up to date
+  //     if (busesByName[name].timestamp <= tsv.timestamp) {
+  //       delete busesByName[name].speed
+  //       busesByName[name].lat = tsv.lat
+  //       busesByName[name].lng = tsv.lng
+  //       busesByName[name].bearing = tsv.bearing
+  //       busesByName[name].timestamp = tsv.timestamp
+  //     }
+  //   } else if (name != null) { // still a bus, not tracked by MDT
+  //     extraBuses.push(tsv)
+  //   } else { // not a bus, not tracked by MDT: a trolley
+  //     allTrolleys.push(tsv)
+  //   }
+  // })
 
   const allBuses = Object.values(busesByName)
   const allTrains = generateRailEntities(railTrains)
